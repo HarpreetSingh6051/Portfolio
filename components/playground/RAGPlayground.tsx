@@ -111,7 +111,7 @@ export function RAGPlayground() {
 
             {/* Sample questions */}
             <div>
-              <p className="mb-2 text-xs font-medium text-zinc-500">Try a sample question:</p>
+              <p className="mb-2 text-xs font-medium text-zinc-400">Try a sample question:</p>
               <div className="flex flex-wrap gap-2">
                 {sampleQuestions.map((q) => (
                   <button
@@ -127,7 +127,7 @@ export function RAGPlayground() {
 
             {/* Knowledge base info */}
             <div className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
-              <p className="mb-2 text-xs font-medium text-zinc-500">
+              <p className="mb-2 text-xs font-medium text-zinc-400">
                 Local Knowledge Base ({KNOWLEDGE_BASE.length} documents)
               </p>
               <div className="space-y-1">
@@ -159,7 +159,7 @@ export function RAGPlayground() {
                   exit={{ opacity: 0 }}
                   className="flex items-center justify-center py-12"
                 >
-                  <div className="flex items-center gap-3 text-zinc-500">
+                  <div className="flex items-center gap-3 text-zinc-400">
                     <div className="h-5 w-5 animate-spin rounded-full border-2 border-zinc-700 border-t-cyan-500" />
                     <span className="text-sm">Retrieving relevant chunks...</span>
                   </div>
@@ -175,7 +175,7 @@ export function RAGPlayground() {
                   className="flex flex-col items-center justify-center py-12 text-center"
                 >
                   <Search className="mb-3 h-8 w-8 text-zinc-700" />
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-zinc-400">
                     Enter a question and click &quot;Run Retrieval&quot; to see results.
                   </p>
                 </motion.div>
@@ -191,7 +191,7 @@ export function RAGPlayground() {
                 >
                   {/* Retrieved chunks */}
                   <div>
-                    <p className="mb-2 text-xs font-medium text-zinc-500">
+                    <p className="mb-2 text-xs font-medium text-zinc-400">
                       Retrieved Chunks ({result.results.length})
                     </p>
                     <div className="space-y-2">
@@ -208,7 +208,7 @@ export function RAGPlayground() {
                               Score: {r.score}
                             </Badge>
                           </div>
-                          <p className="text-xs leading-relaxed text-zinc-500">
+                          <p className="text-xs leading-relaxed text-zinc-400">
                             {r.chunk}
                           </p>
                           {r.matchedTerms.length > 0 && (
@@ -230,7 +230,7 @@ export function RAGPlayground() {
 
                   {/* Selected context */}
                   <div>
-                    <p className="mb-2 text-xs font-medium text-zinc-500">
+                    <p className="mb-2 text-xs font-medium text-zinc-400">
                       Selected Context (Top Chunks)
                     </p>
                     <div className="max-h-32 overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-900/50 p-3">
@@ -242,7 +242,7 @@ export function RAGPlayground() {
 
                   {/* Generated answer */}
                   <div>
-                    <p className="mb-2 flex items-center gap-1 text-xs font-medium text-zinc-500">
+                    <p className="mb-2 flex items-center gap-1 text-xs font-medium text-zinc-400">
                       <CheckCircle2 className="h-3 w-3 text-green-500" />
                       Illustrative Answer
                     </p>
@@ -255,7 +255,7 @@ export function RAGPlayground() {
 
                   {/* Production note */}
                   <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-3">
-                    <p className="text-xs text-zinc-500">
+                    <p className="text-xs text-zinc-400">
                       <strong className="text-zinc-400">Production difference:</strong> In a real
                       RAG system, the selected context would be passed to an LLM (like GPT-4 or
                       Claude) along with the original question. The LLM would generate a

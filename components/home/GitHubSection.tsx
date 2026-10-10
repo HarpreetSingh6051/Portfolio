@@ -62,7 +62,7 @@ export function GitHubSection() {
       </div>
 
       {state === "loading" ? (
-        <div className="flex items-center gap-2 py-10 text-sm text-zinc-500">
+        <div className="flex items-center gap-2 py-10 text-sm text-zinc-400">
           <Loader2 className="h-4 w-4 animate-spin" />
           Loading repositories…
         </div>
@@ -88,7 +88,7 @@ export function GitHubSection() {
                   {repo.description ?? "No description provided."}
                 </p>
 
-                <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
+                <div className="mt-4 flex items-center justify-between text-xs text-zinc-400">
                   <span className="flex items-center gap-3">
                     {repo.language && (
                       <span className="flex items-center gap-1.5">
@@ -112,7 +112,7 @@ export function GitHubSection() {
           </div>
 
           {isFallback && (
-            <p className="mt-6 text-xs text-zinc-600">
+            <p className="mt-6 text-xs text-zinc-400">
               Live repository data is temporarily unavailable — showing a link to the
               full GitHub profile instead.
             </p>

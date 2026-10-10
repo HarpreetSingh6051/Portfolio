@@ -1,12 +1,112 @@
 "use client";
 
-import { Mail, Globe, Code2, FileText, Send } from "lucide-react";
+import { useState } from "react";
+import {
+  Mail,
+  Globe,
+  Code2,
+  FileText,
+  Send,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { Section, SectionHeader, Reveal } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { profile, socialLinks } from "@/lib/config/profile";
 
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+
+// Public Web3Forms form id. Safe to expose in client-side code (it is a public
+// form identifier, not a secret) and domain-restrictable from the dashboard.
+// Override with NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to rotate the key.
+const DEFAULT_WEB3FORMS_ACCESS_KEY = "03a76325-b607-4bc5-a657-452a30b5a465";
+
 export function Contact() {
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [feedback, setFeedback] = useState("");
+  const isSubmitting = status === "submitting";
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    // Guard against duplicate submissions while a request is in flight.
+    if (isSubmitting) return;
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
+    if (!name || !email || !message) {
+      setStatus("error");
+      setFeedback("Please fill in your name, email, and message before sending.");
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(email)) {
+      setStatus("error");
+      setFeedback("Please enter a valid email address so I can reply to you.");
+      return;
+    }
+
+    // The Web3Forms access key is a public form identifier (not a secret),
+    // intentionally used client-side per Web3Forms' own documentation:
+    // https://docs.web3forms.com/getting-started/api-reference
+    const accessKey =
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || DEFAULT_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setStatus("error");
+      setFeedback(
+        `The contact form is missing its configuration key. Please email me directly at ${profile.email}.`
+      );
+      return;
+    }
+
+    setStatus("submitting");
+    setFeedback("");
+
+    formData.append("access_key", accessKey);
+    formData.append("subject", `Portfolio contact from ${name}`);
+    formData.append("from_name", `${profile.name} Portfolio`);
+
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
+      });
+
+      const data: { success?: boolean; message?: string } | null = await response
+        .json()
+        .catch(() => null);
+
+      // Only report success when the service explicitly confirms it.
+      if (response.ok && data?.success) {
+        setStatus("success");
+        setFeedback(
+          "Your message was submitted successfully. Thanks for reaching out — I will reply soon."
+        );
+        form.reset();
+      } else {
+        setStatus("error");
+        setFeedback(
+          data?.message ||
+            `The message could not be sent. Please try again or email me directly at ${profile.email}.`
+        );
+      }
+    } catch {
+      setStatus("error");
+      setFeedback(
+        `Could not reach the contact service. Please check your connection or email me directly at ${profile.email}.`
+      );
+    }
+  }
+
   return (
     <Section id="contact">
       <SectionHeader
@@ -36,7 +136,7 @@ export function Contact() {
                 >
                   <Mail className="h-5 w-5 text-cyan-400" />
                   <div>
-                    <p className="text-xs text-zinc-500">Email</p>
+                    <p className="text-xs text-zinc-400">Email</p>
                     <p className="text-sm text-zinc-200">{profile.email}</p>
                   </div>
                 </a>
@@ -49,7 +149,7 @@ export function Contact() {
                 >
                   <Globe className="h-5 w-5 text-cyan-400" />
                   <div>
-                    <p className="text-xs text-zinc-500">LinkedIn</p>
+                    <p className="text-xs text-zinc-400">LinkedIn</p>
                     <p className="text-sm text-zinc-200">Connect with me</p>
                   </div>
                 </a>
@@ -62,7 +162,7 @@ export function Contact() {
                 >
                   <Code2 className="h-5 w-5 text-cyan-400" />
                   <div>
-                    <p className="text-xs text-zinc-500">GitHub</p>
+                    <p className="text-xs text-zinc-400">GitHub</p>
                     <p className="text-sm text-zinc-200">View my projects</p>
                   </div>
                 </a>
@@ -73,7 +173,7 @@ export function Contact() {
                 >
                   <FileText className="h-5 w-5 text-cyan-400" />
                   <div>
-                    <p className="text-xs text-zinc-500">Resume</p>
+                    <p className="text-xs text-zinc-400">Resume</p>
                     <p className="text-sm text-zinc-200">Download PDF</p>
                   </div>
                 </a>
@@ -88,19 +188,7 @@ export function Contact() {
             <h3 className="mb-4 text-lg font-semibold text-zinc-50">
               Send a Message
             </h3>
-            <form
-              className="space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const name = formData.get("name") as string;
-                const email = formData.get("email") as string;
-                const message = formData.get("message") as string;
-                const subject = `Portfolio contact from ${name}`;
-                const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-                window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-              }}
-            >
+            <form className="space-y-4" onSubmit={handleSubmit} noValidate>
               <div>
                 <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-zinc-300">
                   Name
@@ -110,7 +198,9 @@ export function Contact() {
                   name="name"
                   type="text"
                   required
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none"
+                  autoComplete="name"
+                  disabled={isSubmitting}
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
                   placeholder="Your name"
                 />
               </div>
@@ -123,7 +213,9 @@ export function Contact() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none"
+                  autoComplete="email"
+                  disabled={isSubmitting}
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
                   placeholder="your@email.com"
                 />
               </div>
@@ -136,14 +228,59 @@ export function Contact() {
                   name="message"
                   required
                   rows={4}
-                  className="w-full resize-none rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none"
+                  disabled={isSubmitting}
+                  className="w-full resize-none rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
                   placeholder="Tell me about the opportunity or just say hello..."
                 />
               </div>
-              <Button type="submit" variant="primary" className="w-full">
-                <Send className="h-4 w-4" />
-                Send Message
+
+              {/* Honeypot: hidden from people, tempting to bots. */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
+
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" />
+                    Send Message
+                  </>
+                )}
               </Button>
+
+              {status === "success" && (
+                <p
+                  role="status"
+                  className="flex items-start gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-200"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{feedback}</span>
+                </p>
+              )}
+              {status === "error" && (
+                <p
+                  role="alert"
+                  className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200"
+                >
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{feedback}</span>
+                </p>
+              )}
             </form>
           </Card>
         </Reveal>

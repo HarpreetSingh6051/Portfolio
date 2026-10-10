@@ -1,153 +1,145 @@
-"use client";
-
-import { Fragment } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Section, SectionHeader, Reveal } from "@/components/ui/Section";
-import { Badge } from "@/components/ui/Badge";
 import { projects } from "@/lib/data/projects";
 import type { Project } from "@/lib/types";
+import { WizdomExperience } from "@/components/projects/WizdomExperience";
+import { VisionExperience } from "@/components/projects/VisionExperience";
 
-function PipelineChips({ stages }: { stages: NonNullable<Project["pipelineStages"]> }) {
+function TechTags({ stack }: { stack: string[] }) {
   return (
-    <div className="mt-5">
-      <p className="mb-2 font-mono text-[10px] tracking-widest text-zinc-600 uppercase">
-        Pipeline
-      </p>
-      <div className="flex flex-wrap items-center gap-1.5">
-        {stages.map((stage, index) => (
-          <Fragment key={stage.id}>
-            <span
-              title={stage.description}
-              className="rounded-md border border-zinc-800 bg-zinc-950/60 px-2 py-1 text-xs text-zinc-400"
-            >
-              {stage.label}
-            </span>
-            {index < stages.length - 1 && (
-              <ArrowRight className="h-3 w-3 shrink-0 text-zinc-700" aria-hidden="true" />
-            )}
-          </Fragment>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Stack({ tech }: { tech: string[] }) {
-  const shown = tech.slice(0, 6);
-  const extra = tech.length - shown.length;
-
-  return (
-    <div className="mt-5 flex flex-wrap gap-1.5">
-      {shown.map((item) => (
-        <span
-          key={item}
-          className="rounded-full border border-zinc-800/80 bg-zinc-950/40 px-2.5 py-0.5 text-xs text-zinc-500"
+    <ul className="flex flex-wrap gap-1.5">
+      {stack.slice(0, 6).map((tech) => (
+        <li
+          key={tech}
+          className="rounded-md border border-zinc-800 bg-zinc-900/50 px-2 py-1 text-xs text-zinc-400"
         >
-          {item}
-        </span>
+          {tech}
+        </li>
       ))}
-      {extra > 0 && (
-        <span className="rounded-full border border-zinc-800/80 bg-zinc-950/40 px-2.5 py-0.5 text-xs text-zinc-600">
-          +{extra}
-        </span>
-      )}
-    </div>
+    </ul>
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+interface ProjectFeatureProps {
+  project: Project;
+  visual: ReactNode;
+  index: string;
+  reverse?: boolean;
+}
+
+function ProjectFeature({ project, visual, index, reverse = false }: ProjectFeatureProps) {
   return (
-    <Reveal delay={index * 0.08} className="h-full">
-      <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-700 hover:bg-zinc-900/70 sm:p-7">
-        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+    <Reveal>
+      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className={reverse ? "lg:order-2" : undefined}>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-cyan-400">{index}</span>
+            <span className="font-mono text-[11px] tracking-[0.2em] text-zinc-400 uppercase">
+              {project.category}
+            </span>
+          </div>
+          <h3 className="font-display mt-4 text-3xl text-zinc-50 sm:text-4xl">
+            {project.name}
+          </h3>
+          <p className="mt-4 max-w-xl leading-relaxed text-zinc-400">{project.summary}</p>
 
-        <div className="mb-4 flex items-center justify-between">
-          <Badge variant="cyan">{project.category}</Badge>
-          <span className="font-mono text-xs text-zinc-600">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-        </div>
+          <div className="mt-6">
+            <TechTags stack={project.stack} />
+          </div>
 
-        <h3 className="text-xl font-semibold tracking-tight text-zinc-50 sm:text-2xl">
-          {project.name}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-          {project.summary}
-        </p>
-
-        {project.pipelineStages && <PipelineChips stages={project.pipelineStages} />}
-
-        <Stack tech={project.stack} />
-
-        <div className="mt-auto pt-6">
           <Link
             href={`/projects/${project.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-cyan-400 transition-colors hover:text-cyan-300"
+            className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
           >
-            Read case study
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            Read the case study
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
-      </article>
-    </Reveal>
-  );
-}
 
-function LatestProjectCard({ project }: { project: Project }) {
-  return (
-    <Reveal delay={0.16}>
-      <article className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/20 p-6 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/40 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-        <div className="flex items-start gap-4">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400">
-            <Sparkles className="h-5 w-5" />
-          </span>
-          <div>
-            <Badge variant="outline">Personal</Badge>
-            <h3 className="mt-2 text-lg font-semibold tracking-tight text-zinc-50">
-              {project.name}
-            </h3>
-            <p className="mt-1 max-w-xl text-sm leading-relaxed text-zinc-400">
-              {project.summary}
-            </p>
-          </div>
-        </div>
-
-        <Link
-          href={`/projects/${project.slug}`}
-          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-cyan-400 transition-colors hover:text-cyan-300"
-        >
-          Read case study
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-        </Link>
-      </article>
+        <div className={reverse ? "lg:order-1" : undefined}>{visual}</div>
+      </div>
     </Reveal>
   );
 }
 
 export function FeaturedProjects() {
-  const professional = projects.filter((p) => p.featured);
-  const personal = projects.find((p) => !p.featured);
+  const wizdom = projects.find((project) => project.slug === "wizdom-ai");
+  const vision = projects.find((project) => project.slug === "vision-ai");
+  const personal =
+    projects.find((project) => project.category === "Personal") ??
+    projects.find((project) => !project.featured);
 
   return (
     <Section id="projects">
       <SectionHeader
-        label="Selected Work"
-        title="Featured projects"
-        description="Production systems I have designed and built, plus a slot for my latest independent work."
+        label="Selected work"
+        title="Software that ships, and AI that earns its place"
+        description="Two production systems where the engineering and the intelligence are one and the same."
       />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {professional.map((project, index) => (
-          <ProjectCard key={project.slug} project={project} index={index} />
-        ))}
+      <div className="space-y-20 lg:space-y-28">
+        {wizdom && (
+          <ProjectFeature
+            index="01"
+            project={wizdom}
+            visual={<WizdomExperience />}
+          />
+        )}
+        {vision && (
+          <ProjectFeature
+            index="02"
+            project={vision}
+            visual={<VisionExperience />}
+            reverse
+          />
+        )}
       </div>
 
       {personal && (
-        <div className="mt-6">
-          <LatestProjectCard project={personal} />
-        </div>
+        <Reveal className="mt-20 lg:mt-28">
+          <div className="panel overflow-hidden rounded-2xl">
+            <div className="grid gap-6 p-6 sm:p-8 md:grid-cols-[1.4fr_1fr] md:items-center">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs text-cyan-400">03</span>
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-zinc-400 uppercase">
+                    {personal.category}
+                  </span>
+                </div>
+                <h3 className="font-display mt-4 text-2xl text-zinc-50 sm:text-3xl">
+                  {personal.name}
+                </h3>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+                  {personal.summary}
+                </p>
+              </div>
+
+              <div className="md:border-l md:border-zinc-800 md:pl-6">
+                <TechTags stack={personal.stack} />
+                <Link
+                  href={`/projects/${personal.slug}`}
+                  className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
+                >
+                  Read the case study
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       )}
+
+      <Reveal className="mt-10">
+        <Link
+          href="/notes"
+          className="group inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-cyan-300"
+        >
+          More depth lives in the engineering notes
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+      </Reveal>
     </Section>
   );
 }

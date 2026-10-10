@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, FileText } from "lucide-react";
+import { Menu, X, FileText, Search } from "lucide-react";
 import { profile, navLinks } from "@/lib/config/profile";
+import { openCommandPalette } from "@/components/layout/CommandPalette";
 import { cn } from "@/lib/utils/cn";
 
 export function Navbar() {
@@ -46,15 +47,14 @@ export function Navbar() {
     return () => observer.disconnect();
   }, [onHome]);
 
-  const isActive = (href: string) =>
-    onHome && href.split("#")[1] === activeSection;
+  const isActive = (href: string) => onHome && href.split("#")[1] === activeSection;
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         isScrolled
-          ? "border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md"
+          ? "border-b border-zinc-800/70 bg-zinc-950/80 backdrop-blur-md"
           : "border-b border-transparent"
       )}
     >
@@ -62,9 +62,9 @@ export function Navbar() {
         <Link
           href="/"
           onClick={() => setIsMobileOpen(false)}
-          className="flex items-center gap-2.5 text-sm font-semibold text-zinc-50 transition-colors hover:text-cyan-400"
+          className="group flex items-center gap-2.5 text-sm font-semibold text-zinc-50"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 font-mono text-xs font-bold text-zinc-950">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 font-mono text-xs font-bold text-zinc-950 transition-transform group-hover:scale-105">
             {profile.initials}
           </span>
           <span className="hidden sm:inline">{profile.name}</span>
@@ -77,37 +77,61 @@ export function Navbar() {
               href={link.href}
               aria-current={isActive(link.href) ? "page" : undefined}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                isActive(link.href)
-                  ? "text-zinc-50"
-                  : "text-zinc-400 hover:text-zinc-100"
+                "relative rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                isActive(link.href) ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"
               )}
             >
               {link.label}
+              {isActive(link.href) && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute inset-x-3 -bottom-0.5 h-px bg-cyan-400"
+                  aria-hidden="true"
+                />
+              )}
             </Link>
           ))}
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            onClick={openCommandPalette}
+            className="inline-flex items-center gap-2 rounded-lg border border-zinc-800 px-2.5 py-2 text-xs font-medium text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-100"
+            aria-label="Open command menu (⌘K)"
+          >
+            <Search className="h-3.5 w-3.5" />
+            <span className="font-mono text-[11px]">⌘K</span>
+          </button>
           <a
             href={profile.resumePath}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-zinc-800 px-3.5 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-600 hover:text-cyan-400"
+            className="inline-flex items-center gap-2 rounded-lg border border-zinc-800 px-3.5 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-600 hover:text-cyan-300"
           >
             <FileText className="h-4 w-4" />
             Resume
           </a>
         </div>
 
-        <button
-          onClick={() => setIsMobileOpen((open) => !open)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:text-zinc-50 md:hidden"
-          aria-label={isMobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMobileOpen}
-        >
-          {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <button
+            type="button"
+            onClick={openCommandPalette}
+            className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:text-zinc-50"
+            aria-label="Open command menu"
+          >
+            <Search className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => setIsMobileOpen((open) => !open)}
+            className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:text-zinc-50"
+            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileOpen}
+          >
+            {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>

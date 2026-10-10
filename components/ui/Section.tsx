@@ -41,14 +41,17 @@ export function SectionHeader({ label, title, description }: SectionHeaderProps)
       transition={{ duration: 0.5 }}
       className="mb-12 sm:mb-16"
     >
-      <span className="mb-3 inline-block rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium tracking-wider text-cyan-400 uppercase">
-        {label}
-      </span>
-      <h2 className="text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl lg:text-5xl">
+      <div className="flex items-center gap-3">
+        <span className="h-px w-8 bg-cyan-400/70" aria-hidden="true" />
+        <span className="font-mono text-xs tracking-[0.25em] text-cyan-400 uppercase">
+          {label}
+        </span>
+      </div>
+      <h2 className="font-display mt-5 max-w-3xl text-4xl leading-[1.1] text-zinc-50 sm:text-5xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-400">
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-400">
           {description}
         </p>
       )}

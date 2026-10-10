@@ -26,14 +26,14 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <p className="text-lg font-semibold text-zinc-100">{profile.name}</p>
-            <p className="mt-1 max-w-xs text-sm text-zinc-500">{profile.title}</p>
-            <p className="mt-4 max-w-xs text-sm text-zinc-600">
+            <p className="mt-1 max-w-xs text-sm text-zinc-400">{profile.title}</p>
+            <p className="mt-4 max-w-xs text-sm text-zinc-400">
               {profile.location}
             </p>
           </div>
 
           <nav aria-label="Footer navigation">
-            <h2 className="mb-3 font-mono text-[11px] tracking-widest text-zinc-500 uppercase">
+            <h2 className="mb-3 font-mono text-[11px] tracking-widest text-zinc-400 uppercase">
               Explore
             </h2>
             <ul className="space-y-2">
@@ -62,7 +62,7 @@ export function Footer() {
           </nav>
 
           <div>
-            <h2 className="mb-3 font-mono text-[11px] tracking-widest text-zinc-500 uppercase">
+            <h2 className="mb-3 font-mono text-[11px] tracking-widest text-zinc-400 uppercase">
               Connect
             </h2>
             <ul className="space-y-2">
@@ -111,7 +111,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-zinc-800/80 pt-6 sm:flex-row">
-          <p className="text-xs text-zinc-600">
+          <p className="text-xs text-zinc-400">
             &copy; {year ?? "…"} {profile.name}. All rights reserved.
           </p>
           <button

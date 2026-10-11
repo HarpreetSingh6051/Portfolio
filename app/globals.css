@@ -1,29 +1,111 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ *
+ * Theme variant — attribute driven so it works with the JS switcher  *
+ * ------------------------------------------------------------------ */
+@custom-variant dark (&:where([data-theme="dark"] *));
+
+/* ------------------------------------------------------------------ *
+ * Semantic tokens                                                     *
+ *                                                                    *
+ * Every colour is a CSS variable that points at a theme-scoped var.   *
+ * Light values live on :root, dark values on [data-theme="dark"], so  *
+ * utilities like bg-canvas / text-ink / border-line follow the active *
+ * theme automatically (Tailwind v4 @theme inline inlines the value).  *
+ * ------------------------------------------------------------------ */
 @theme inline {
-  --color-canvas: #faf8f4;
-  --color-canvas-soft: #f3f0e9;
-  --color-paper: #ffffff;
-  --color-ink: #1c1813;
-  --color-ink-strong: #2c271f;
-  --color-body: #565046;
-  --color-muted: #706a5c;
-  --color-line: #e8e2d8;
-  --color-line-strong: #d6cec1;
-  --color-accent: #1d4ed8;
-  --color-accent-strong: #163a9e;
-  --color-accent-soft: #eaf0ff;
-  --color-violet: #6d28d9;
-  --color-violet-soft: #f1eaff;
-  --color-dark: #14120f;
-  --color-dark-raise: #1d1a16;
-  --color-dark-line: #2e2a24;
-  --color-cream: #efeae1;
-  --color-cream-muted: #a69e90;
+  --color-canvas: var(--c-canvas);
+  --color-canvas-soft: var(--c-canvas-soft);
+  --color-paper: var(--c-paper);
+  --color-panel: var(--c-paper);
+  --color-ink: var(--c-ink);
+  --color-ink-strong: var(--c-ink-strong);
+  --color-body: var(--c-body);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-accent: var(--c-accent);
+  --color-accent-strong: var(--c-accent-strong);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-violet: var(--c-violet);
+  --color-violet-soft: var(--c-violet-soft);
+  --color-dark: var(--c-dark);
+  --color-dark-raise: var(--c-dark-raise);
+  --color-dark-line: var(--c-dark-line);
+  --color-cream: var(--c-cream);
+  --color-cream-muted: var(--c-cream-muted);
+  --color-positive: var(--c-positive);
+  --color-caution: var(--c-caution);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
+}
+
+/* ---------------------------- Light ------------------------------- */
+:root {
+  --c-canvas: #faf8f4;
+  --c-canvas-soft: #f3f0e9;
+  --c-paper: #ffffff;
+  --c-ink: #1c1813;
+  --c-ink-strong: #2c271f;
+  --c-body: #565046;
+  --c-muted: #706a5c;
+  --c-line: #e8e2d8;
+  --c-line-strong: #d6cec1;
+  --c-accent: #1d4ed8;
+  --c-accent-strong: #163a9e;
+  --c-accent-soft: #eaf0ff;
+  --c-violet: #6d28d9;
+  --c-violet-soft: #f1eaff;
+  --c-dark: #14120f;
+  --c-dark-raise: #1d1a16;
+  --c-dark-line: #2e2a24;
+  --c-cream: #efeae1;
+  --c-cream-muted: #a69e90;
+  --c-positive: #15803d;
+  --c-caution: #b45309;
+
+  /* atmosphere (rgba so they composite over either canvas) */
+  --c-grid: rgba(28, 24, 19, 0.045);
+  --c-tint-a: rgba(29, 78, 216, 0.05);
+  --c-tint-b: rgba(109, 40, 217, 0.05);
+  --shadow-panel: 0 1px 2px rgba(28, 24, 19, 0.04);
+  --shadow-lift: 0 18px 40px -22px rgba(28, 24, 19, 0.28);
+  --shadow-figure: 0 2px 14px -8px rgba(28, 24, 19, 0.18);
+  color-scheme: light;
+}
+
+/* ---------------------------- Dark -------------------------------- */
+html[data-theme="dark"] {
+  --c-canvas: #100e0c;
+  --c-canvas-soft: #17140f;
+  --c-paper: #1b1815;
+  --c-ink: #f5f0e6;
+  --c-ink-strong: #fffdf7;
+  --c-body: #cec6b7;
+  --c-muted: #a39a8a;
+  --c-line: #302b24;
+  --c-line-strong: #453e35;
+  --c-accent: #8fb0ff;
+  --c-accent-strong: #b9cdff;
+  --c-accent-soft: #16224a;
+  --c-violet: #c4a6ff;
+  --c-violet-soft: #241a3f;
+  --c-dark: #14120f;
+  --c-dark-raise: #1d1a16;
+  --c-dark-line: #2e2a24;
+  --c-cream: #efeae1;
+  --c-cream-muted: #a69e90;
+  --c-positive: #6ee7a8;
+  --c-caution: #fbbf6b;
+
+  --c-grid: rgba(245, 240, 230, 0.05);
+  --c-tint-a: rgba(143, 176, 255, 0.07);
+  --c-tint-b: rgba(196, 166, 255, 0.07);
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-lift: 0 20px 44px -22px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
 }
 
 html {
@@ -34,15 +116,32 @@ html {
 }
 
 body {
-  background: var(--color-canvas);
-  color: var(--color-ink);
+  background: var(--c-canvas);
+  color: var(--c-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* ------------------------------------------------------------------ */
-/* Editorial display type                                              */
-/* ------------------------------------------------------------------ */
+body {
+  color: var(--c-ink);
+}
 
+/* Smooth theme cross-fade (class is applied only while switching) */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    color 320ms ease,
+    fill 320ms ease,
+    stroke 320ms ease !important;
+  transition-delay: 0ms !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Editorial display type                                              *
+ * ------------------------------------------------------------------ */
 .font-display {
   font-family: var(--font-display);
   font-weight: 500;
@@ -56,15 +155,13 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* ------------------------------------------------------------------ */
-/* Surfaces & helpers                                                  */
-/* ------------------------------------------------------------------ */
-
-/* Fine grid, faded toward the edges (light theme) */
+/* ------------------------------------------------------------------ *
+ * Surfaces & atmosphere                                               *
+ * ------------------------------------------------------------------ */
 .bg-grid-fine {
   background-image:
-    linear-gradient(to right, rgba(28, 24, 19, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 24, 19, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, var(--c-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--c-grid) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 
@@ -73,127 +170,115 @@ body {
   mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 45%, transparent 100%);
 }
 
-/* Light raised panel (cards, inner frames) */
 .panel {
-  background: var(--color-paper);
-  border: 1px solid var(--color-line);
-  box-shadow: 0 1px 2px rgba(28, 24, 19, 0.04);
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  box-shadow: var(--shadow-panel);
 }
 
-/* Dark showcase surface — used only for project previews */
 .panel-dark {
   background:
-    linear-gradient(180deg, var(--color-dark-raise) 0%, var(--color-dark) 100%);
-  border: 1px solid var(--color-dark-line);
+    linear-gradient(180deg, var(--c-dark-raise) 0%, var(--c-dark) 100%);
+  border: 1px solid var(--c-dark-line);
 }
 
-/* ------------------------------------------------------------------ */
-/* Motion primitives (frozen automatically under reduced motion)        */
-/* ------------------------------------------------------------------ */
+/* A glassy scrim used over the hero canvas / dark showpieces */
+.scrim-canvas {
+  background: linear-gradient(180deg, transparent 0%, var(--c-canvas) 88%);
+}
 
+/* Text that sits on the dark showcase surfaces */
+.on-dark-ink { color: var(--c-cream); }
+.on-dark-muted { color: var(--c-cream-muted); }
+
+/* ------------------------------------------------------------------ *
+ * Motion primitives                                                   *
+ * ------------------------------------------------------------------ */
 @keyframes network-dash {
-  to {
-    stroke-dashoffset: -28;
-  }
+  to { stroke-dashoffset: -28; }
 }
 
 @keyframes scan-sweep {
-  0% {
-    transform: translateX(-110%);
-  }
-  100% {
-    transform: translateX(110%);
-  }
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(110%); }
 }
 
 @keyframes float-slow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
 }
 
 @keyframes pulse-soft {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.95;
-  }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.95; }
 }
 
 @keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.15;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
 }
 
-.animate-network-dash {
-  animation: network-dash 1.4s linear infinite;
+@keyframes signal-run {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
 }
 
-.animate-scan {
-  animation: scan-sweep 2.6s ease-in-out infinite;
+@keyframes sheen {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  100% { transform: translateX(220%) skewX(-12deg); }
 }
 
-.animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
+@keyframes caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.animate-pulse-soft {
-  animation: pulse-soft 2.8s ease-in-out infinite;
+.animate-network-dash { animation: network-dash 1.4s linear infinite; }
+.animate-scan { animation: scan-sweep 2.6s ease-in-out infinite; }
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 2.8s ease-in-out infinite; }
+.animate-blink { animation: blink 1.8s ease-in-out infinite; }
+.animate-caret { animation: caret 1s steps(1) infinite; }
+.animate-sheen { animation: sheen 2.4s ease-in-out infinite; }
+
+/* "Ambient motion" switch: freezes every CSS-driven effect */
+html[data-effects="off"] .animate-network-dash,
+html[data-effects="off"] .animate-scan,
+html[data-effects="off"] .animate-float-slow,
+html[data-effects="off"] .animate-pulse-soft,
+html[data-effects="off"] .animate-blink,
+html[data-effects="off"] .animate-sheen {
+  animation: none !important;
 }
 
-.animate-blink {
-  animation: blink 1.8s ease-in-out infinite;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-canvas);
-}
-
+/* ------------------------------------------------------------------ *
+ * Chrome                                                              *
+ * ------------------------------------------------------------------ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--c-canvas); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-line-strong);
+  background: var(--c-line-strong);
   border-radius: 6px;
-  border: 2px solid var(--color-canvas);
+  border: 2px solid var(--c-canvas);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--c-muted); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
-}
-
-/* Focus visible styles */
 *:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--c-accent);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
-/* Selection color */
 ::selection {
-  background: rgba(29, 78, 216, 0.18);
-  color: var(--color-ink);
+  background: color-mix(in srgb, var(--c-accent) 22%, transparent);
+  color: var(--c-ink);
 }
 
-/* Respect reduced-motion preferences */
+/* ------------------------------------------------------------------ *
+ * Reduced motion                                                      *
+ * ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 
   *,
   *::before,

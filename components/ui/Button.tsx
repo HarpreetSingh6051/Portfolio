@@ -29,12 +29,12 @@ export function Button({
   magnetic = false,
 }: ButtonProps) {
   const classes = cn(
-    "group inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:cursor-not-allowed disabled:opacity-60",
+    "group inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-60",
     variant === "primary" &&
-      "bg-cyan-500 text-zinc-950 shadow-lg shadow-cyan-500/20 hover:bg-cyan-400 active:bg-cyan-600",
+      "bg-ink text-canvas shadow-[0_1px_2px_rgba(28,24,19,0.2)] hover:bg-ink-strong active:bg-dark",
     variant === "secondary" &&
-      "border border-zinc-700 bg-zinc-900/70 text-zinc-200 hover:border-zinc-500 hover:bg-zinc-800",
-    variant === "ghost" && "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50",
+      "border border-line-strong bg-paper text-ink hover:border-line-strong hover:bg-canvas-soft",
+    variant === "ghost" && "text-muted hover:bg-canvas-soft hover:text-ink",
     className
   );
 

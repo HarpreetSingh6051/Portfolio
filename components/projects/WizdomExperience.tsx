@@ -45,7 +45,7 @@ const stages: PlayerStage[] = [
 
 export function WizdomExperience() {
   return (
-    <div className="panel rounded-2xl p-5 sm:p-6">
+    <div className="rounded-2xl p-5 sm:p-6">
       <PipelinePlayer
         stages={stages}
         idleHint="Press Play to follow a document from ingestion to a grounded answer."

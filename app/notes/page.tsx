@@ -14,14 +14,14 @@ export const metadata: Metadata = {
 export default function NotesPage() {
   return (
     <div className="pt-16">
-      <section className="border-b border-zinc-800 bg-gradient-to-b from-zinc-900/50 to-zinc-950 py-16 sm:py-20">
+      <section className="border-b border-line bg-gradient-to-b from-canvas-soft/70 to-canvas py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div>
-            <Badge variant="cyan">Learning Journal</Badge>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+            <Badge variant="accent">Learning Journal</Badge>
+            <h1 className="font-display mt-5 text-4xl leading-[1.05] text-ink sm:text-5xl">
               Engineering Notes
             </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-400">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-body">
               Short technical notes and experiments from my ongoing learning in AI,
               software engineering, and computer vision.
             </p>
@@ -40,7 +40,7 @@ export default function NotesPage() {
                       {article.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="flex items-center gap-1 rounded border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-xs text-zinc-500"
+                          className="flex items-center gap-1 rounded border border-line bg-canvas/50 px-2 py-0.5 text-xs text-muted"
                         >
                           <Tag className="h-3 w-3" />
                           {tag}
@@ -48,22 +48,22 @@ export default function NotesPage() {
                       ))}
                     </div>
 
-                    <h2 className="mb-2 text-xl font-semibold text-zinc-50 transition-colors group-hover:text-cyan-400">
+                    <h2 className="mb-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
                       {article.title}
                     </h2>
 
-                    <p className="mb-4 text-sm leading-relaxed text-zinc-400">
+                    <p className="mb-4 text-sm leading-relaxed text-body">
                       {article.excerpt}
                     </p>
 
-                    <div className="flex items-center justify-between text-xs text-zinc-500">
+                    <div className="flex items-center justify-between text-xs text-muted">
                       <span>{formatDate(article.date)}</span>
                       <div className="flex items-center gap-3">
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           {article.readingTime} min read
                         </span>
-                        <span className="flex items-center gap-1 text-cyan-400">
+                        <span className="flex items-center gap-1 text-accent">
                           Read more
                           <ArrowRight className="h-3 w-3" />
                         </span>

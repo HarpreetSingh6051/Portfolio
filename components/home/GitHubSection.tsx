@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Star, GitFork, ExternalLink, ArrowRight, Loader2 } from "lucide-react";
-import { Section, SectionHeader } from "@/components/ui/Section";
+import { Star, GitFork, ArrowRight, Loader2, ExternalLink } from "lucide-react";
+import { Section } from "@/components/ui/Section";
 import { githubConfig } from "@/lib/data/github";
 import { formatRelativeDate } from "@/lib/utils/date";
 import type { GitHubRepo } from "@/lib/types";
@@ -44,17 +44,26 @@ export function GitHubSection() {
 
   return (
     <Section id="github" background="muted">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <SectionHeader
-          label="Open Source"
-          title="GitHub activity"
-          description="Public repositories from my GitHub profile, most recently updated first."
-        />
+      <div className="mb-12 flex flex-col gap-6 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-10 bg-accent" aria-hidden="true" />
+            <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase">
+              Open Source
+            </span>
+          </div>
+          <h2 className="font-display mt-5 text-4xl leading-[1.05] text-ink sm:text-5xl">
+            GitHub activity
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-body">
+            Public repositories, most recently updated first.
+          </p>
+        </div>
         <a
           href={githubConfig.profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group mb-6 inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-cyan-400 transition-colors hover:text-cyan-300 sm:mb-16"
+          className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-strong"
         >
           View profile on GitHub
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -62,40 +71,38 @@ export function GitHubSection() {
       </div>
 
       {state === "loading" ? (
-        <div className="flex items-center gap-2 py-10 text-sm text-zinc-400">
+        <div className="flex items-center gap-2 py-8 text-sm text-muted">
           <Loader2 className="h-4 w-4 animate-spin" />
           Loading repositories…
         </div>
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="divide-y divide-line border-y border-line">
             {visible.map((repo) => (
-              <a
-                key={repo.id}
-                href={repo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-700 hover:bg-zinc-900/70"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="truncate text-sm font-semibold text-zinc-100 transition-colors group-hover:text-cyan-400">
-                    {repo.name}
-                  </h3>
-                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-600 transition-colors group-hover:text-cyan-400" />
-                </div>
-
-                <p className="mt-2 line-clamp-2 flex-1 text-xs leading-relaxed text-zinc-400">
-                  {repo.description ?? "No description provided."}
-                </p>
-
-                <div className="mt-4 flex items-center justify-between text-xs text-zinc-400">
-                  <span className="flex items-center gap-3">
-                    {repo.language && (
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-2 w-2 rounded-full bg-cyan-400" />
-                        {repo.language}
+              <li key={repo.id}>
+                <a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col gap-2 py-4 transition-colors sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span
+                      className="h-2 w-2 shrink-0 rounded-full bg-accent"
+                      aria-hidden="true"
+                    />
+                    <div className="min-w-0">
+                      <span className="text-sm font-medium text-ink transition-colors group-hover:text-accent">
+                        {repo.name}
                       </span>
-                    )}
+                      <p className="truncate text-sm text-muted">
+                        {repo.description ?? "No description provided."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-4 text-xs text-muted sm:pl-6">
+                    {repo.language && <span>{repo.language}</span>}
                     <span className="flex items-center gap-1">
                       <Star className="h-3 w-3" />
                       {repo.stargazers_count}
@@ -104,17 +111,21 @@ export function GitHubSection() {
                       <GitFork className="h-3 w-3" />
                       {repo.forks_count}
                     </span>
-                  </span>
-                  <span className="shrink-0">{formatRelativeDate(repo.updated_at)}</span>
-                </div>
-              </a>
+                    <span className="shrink-0">{formatRelativeDate(repo.updated_at)}</span>
+                    <ExternalLink
+                      className="h-3.5 w-3.5 text-line-strong transition-colors group-hover:text-accent"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
 
           {isFallback && (
-            <p className="mt-6 text-xs text-zinc-400">
-              Live repository data is temporarily unavailable — showing a link to the
-              full GitHub profile instead.
+            <p className="mt-6 text-xs text-muted">
+              Live repository data is temporarily unavailable — showing a link to the full
+              GitHub profile instead.
             </p>
           )}
         </>

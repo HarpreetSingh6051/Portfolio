@@ -52,22 +52,23 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "border-b border-zinc-800/70 bg-zinc-950/80 backdrop-blur-md"
-          : "border-b border-transparent"
+        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
+        "border-line bg-canvas/85 backdrop-blur-md",
+        isScrolled && "bg-canvas/95 shadow-[0_1px_10px_rgba(28,24,19,0.04)]"
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           onClick={() => setIsMobileOpen(false)}
-          className="group flex items-center gap-2.5 text-sm font-semibold text-zinc-50"
+          className="group flex items-center gap-2.5"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 font-mono text-xs font-bold text-zinc-950 transition-transform group-hover:scale-105">
+          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-xs font-bold text-canvas transition-transform group-hover:scale-105">
             {profile.initials}
           </span>
-          <span className="hidden sm:inline">{profile.name}</span>
+          <span className="hidden text-sm font-semibold text-ink sm:inline">
+            {profile.name}
+          </span>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -78,14 +79,14 @@ export function Navbar() {
               aria-current={isActive(link.href) ? "page" : undefined}
               className={cn(
                 "relative rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                isActive(link.href) ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"
+                isActive(link.href) ? "text-ink" : "text-muted hover:text-ink"
               )}
             >
               {link.label}
               {isActive(link.href) && (
                 <motion.span
                   layoutId="nav-underline"
-                  className="absolute inset-x-3 -bottom-0.5 h-px bg-cyan-400"
+                  className="absolute inset-x-3 -bottom-0.5 h-px bg-accent"
                   aria-hidden="true"
                 />
               )}
@@ -97,7 +98,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={openCommandPalette}
-            className="inline-flex items-center gap-2 rounded-lg border border-zinc-800 px-2.5 py-2 text-xs font-medium text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-100"
+            className="inline-flex items-center gap-2 rounded-md border border-line bg-paper px-2.5 py-2 text-xs font-medium text-muted transition-colors hover:border-line-strong hover:text-ink"
             aria-label="Open command menu (⌘K)"
           >
             <Search className="h-3.5 w-3.5" />
@@ -107,7 +108,7 @@ export function Navbar() {
             href={profile.resumePath}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-zinc-800 px-3.5 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-600 hover:text-cyan-300"
+            className="inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-sm font-medium text-canvas transition-colors hover:bg-ink-strong"
           >
             <FileText className="h-4 w-4" />
             Resume
@@ -118,14 +119,14 @@ export function Navbar() {
           <button
             type="button"
             onClick={openCommandPalette}
-            className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:text-zinc-50"
+            className="flex h-10 w-10 items-center justify-center rounded-md text-muted transition-colors hover:text-ink"
             aria-label="Open command menu"
           >
             <Search className="h-5 w-5" />
           </button>
           <button
             onClick={() => setIsMobileOpen((open) => !open)}
-            className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:text-zinc-50"
+            className="flex h-10 w-10 items-center justify-center rounded-md text-muted transition-colors hover:text-ink"
             aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileOpen}
           >
@@ -141,7 +142,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="overflow-hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-md md:hidden"
+            className="overflow-hidden border-t border-line bg-canvas/95 backdrop-blur-md md:hidden"
           >
             <div className="space-y-1 px-4 py-4">
               {navLinks.map((link) => (
@@ -152,8 +153,8 @@ export function Navbar() {
                   className={cn(
                     "block rounded-md px-3 py-2.5 text-base font-medium transition-colors",
                     isActive(link.href)
-                      ? "bg-zinc-900 text-zinc-50"
-                      : "text-zinc-400 hover:text-zinc-100"
+                      ? "bg-accent-soft text-ink"
+                      : "text-muted hover:text-ink"
                   )}
                 >
                   {link.label}
@@ -164,7 +165,7 @@ export function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsMobileOpen(false)}
-                className="mt-2 flex items-center gap-2 rounded-lg border border-zinc-800 px-3 py-2.5 text-sm font-medium text-zinc-200"
+                className="mt-2 flex items-center gap-2 rounded-md bg-ink px-3 py-2.5 text-sm font-medium text-canvas"
               >
                 <FileText className="h-4 w-4" />
                 Resume

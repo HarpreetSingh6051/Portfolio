@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ArrowRight, FileText, Code2, Globe, Mail } from "lucide-react";
 import { profile, socialLinks } from "@/lib/config/profile";
 import { Button } from "@/components/ui/Button";
@@ -20,7 +21,7 @@ const socials = [
 
 export function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-40 lg:pb-24">
+    <section id="home" className="relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pt-44 lg:pb-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* Copy */}
@@ -29,13 +30,13 @@ export function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.2em] text-cyan-400 uppercase"
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.18em] text-accent uppercase"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Full-Stack Engineer
-              <span className="text-zinc-600">/</span>
+              <span className="text-line-strong">/</span>
               Applied AI
-              <span className="text-zinc-600">/</span>
+              <span className="text-line-strong">/</span>
               RAG &amp; Computer Vision
             </motion.p>
 
@@ -43,10 +44,11 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-              className="font-display mt-6 text-4xl leading-[1.05] text-zinc-50 sm:text-5xl lg:text-6xl"
+              className="font-display mt-6 text-[2.6rem] leading-[1.04] text-ink sm:text-6xl lg:text-[4.1rem]"
             >
-              I build production software, and{" "}
-              <span className="font-display-italic text-cyan-300">
+              I build production software,
+              <br className="hidden sm:block" /> and{" "}
+              <span className="font-display-italic text-accent">
                 make AI work inside it.
               </span>
             </motion.h1>
@@ -55,7 +57,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.12 }}
-              className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400"
+              className="mt-7 max-w-xl text-lg leading-relaxed text-body"
             >
               Full-stack engineering meets applied AI. From scalable applications to
               intelligent systems that solve real problems.
@@ -75,49 +77,81 @@ export function Hero() {
                 <FileText className="h-4 w-4" />
                 Download resume
               </Button>
+            </motion.div>
 
-              <span className="mx-1 hidden h-6 w-px bg-zinc-800 sm:block" />
-
-              <div className="flex items-center gap-1">
-                {socials.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target={social.href.startsWith("mailto:") ? undefined : "_blank"}
-                      rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                      aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-800 text-zinc-400 transition-colors hover:border-cyan-500/50 hover:text-cyan-300"
-                    >
-                      <Icon className="h-4 w-4" />
-                    </a>
-                  );
-                })}
-              </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: 0.24 }}
+              className="mt-8 flex flex-wrap items-center gap-2"
+            >
+              <span className="mr-1 hidden font-mono text-[11px] tracking-[0.18em] text-muted uppercase sm:inline">
+                Find me on
+              </span>
+              {socials.map((social) => {
+                const Icon = social.icon;
+                const isMail = social.href.startsWith("mailto:");
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target={isMail ? undefined : "_blank"}
+                    rel={isMail ? undefined : "noopener noreferrer"}
+                    aria-label={social.label}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-line-strong hover:text-ink"
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {social.label}
+                  </a>
+                );
+              })}
             </motion.div>
 
             <motion.dl
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.28 }}
-              className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-zinc-800/70 pt-6"
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+              className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-7"
             >
               {stats.map((stat) => (
                 <div key={stat.label}>
-                  <dt className="font-display text-3xl text-zinc-50">{stat.value}</dt>
-                  <dd className="mt-1 text-xs leading-snug text-zinc-400">{stat.label}</dd>
+                  <dt className="font-display text-3xl text-ink">{stat.value}</dt>
+                  <dd className="mt-1 text-xs leading-snug text-muted">{stat.label}</dd>
                 </div>
               ))}
             </motion.dl>
           </div>
 
-          {/* Signature visual */}
+          {/* Signature visual: identity card + interactive system map */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+            className="flex flex-col gap-6"
           >
+            <figure className="panel mx-auto w-full max-w-[19rem] overflow-hidden rounded-2xl sm:max-w-xs">
+              <div className="relative aspect-square overflow-hidden">
+                <Image
+                  src="/images/profile.jpg"
+                  alt={`${profile.name} — ${profile.title}`}
+                  width={400}
+                  height={400}
+                  priority
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 ring-1 ring-ink/5 ring-inset"
+                  aria-hidden="true"
+                />
+              </div>
+              <figcaption className="flex items-center justify-between gap-3 border-t border-line px-4 py-3">
+                <span className="text-sm font-semibold text-ink">{profile.name}</span>
+                <span className="font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                  AI Engineer
+                </span>
+              </figcaption>
+            </figure>
+
             <NodeNetwork />
           </motion.div>
         </div>

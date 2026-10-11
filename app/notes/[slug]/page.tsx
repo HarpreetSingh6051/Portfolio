@@ -36,11 +36,11 @@ export default async function NotePage({ params }: Props) {
 
   return (
     <div className="pt-16">
-      <section className="border-b border-zinc-800 bg-gradient-to-b from-zinc-900/50 to-zinc-950 py-16 sm:py-20">
+      <section className="border-b border-line bg-gradient-to-b from-canvas-soft/70 to-canvas py-16 sm:py-20">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/notes"
-            className="mb-6 inline-flex items-center gap-1 text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+            className="mb-6 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Notes
@@ -51,7 +51,7 @@ export default async function NotePage({ params }: Props) {
               {article.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="flex items-center gap-1 rounded border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-xs text-zinc-500"
+                  className="flex items-center gap-1 rounded border border-line bg-canvas/50 px-2 py-0.5 text-xs text-muted"
                 >
                   <Tag className="h-3 w-3" />
                   {tag}
@@ -59,11 +59,11 @@ export default async function NotePage({ params }: Props) {
               ))}
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+            <h1 className="font-display text-4xl leading-[1.05] text-ink sm:text-5xl">
               {article.title}
             </h1>
 
-            <div className="mt-4 flex items-center gap-4 text-sm text-zinc-500">
+            <div className="mt-5 flex items-center gap-4 text-sm text-muted">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
                 {formatDate(article.date)}
@@ -79,7 +79,7 @@ export default async function NotePage({ params }: Props) {
 
       <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <article className="prose prose-invert prose-zinc max-w-none">
+          <article>
             <ArticleContent content={article.content} excerpt={article.excerpt} />
           </article>
         </div>

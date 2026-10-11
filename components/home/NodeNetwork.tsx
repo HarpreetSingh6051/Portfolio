@@ -87,6 +87,9 @@ const edges: [string, string][] = [
 const order = nodes.map((node) => node.id);
 const nodeById = (id: string) => nodes.find((node) => node.id === id)!;
 
+const ACCENT = "#1d4ed8";
+const VIOLET = "#6d28d9";
+
 export function NodeNetwork() {
   const reduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -118,11 +121,11 @@ export function NodeNetwork() {
   return (
     <figure className="relative">
       <div
-        className="relative rounded-3xl p-3"
+        className="relative rounded-3xl p-3 shadow-[0_2px_14px_-8px_rgba(28,24,19,0.18)]"
         style={{
           background:
-            "radial-gradient(120% 120% at 50% 0%, rgba(34,211,238,0.06), transparent 60%), rgba(9,9,11,0.4)",
-          border: "1px solid rgba(63,63,70,0.5)",
+            "radial-gradient(120% 120% at 50% 0%, rgba(29,78,216,0.05), transparent 60%), #ffffff",
+          border: "1px solid #e8e2d8",
         }}
       >
         <svg
@@ -135,14 +138,14 @@ export function NodeNetwork() {
         >
           <defs>
             <radialGradient id="node-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+              <stop offset="0%" stopColor={ACCENT} stopOpacity="0.28" />
+              <stop offset="100%" stopColor={ACCENT} stopOpacity="0" />
             </radialGradient>
           </defs>
 
           {/* orbit rings for depth */}
-          <circle cx="250" cy="248" r="196" fill="none" stroke="rgba(148,163,184,0.08)" strokeWidth="1" />
-          <circle cx="250" cy="248" r="140" fill="none" stroke="rgba(148,163,184,0.06)" strokeWidth="1" />
+          <circle cx="250" cy="248" r="196" fill="none" stroke="rgba(28,24,19,0.07)" strokeWidth="1" />
+          <circle cx="250" cy="248" r="140" fill="none" stroke="rgba(28,24,19,0.05)" strokeWidth="1" />
 
           {/* edges */}
           {edges.map(([a, b]) => {
@@ -156,11 +159,11 @@ export function NodeNetwork() {
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke={isActive ? "#22d3ee" : "rgba(148,163,184,0.2)"}
+                stroke={isActive ? ACCENT : "rgba(28,24,19,0.16)"}
                 strokeWidth={isActive ? 1.6 : 1}
                 strokeDasharray="2 7"
                 className={reduceMotion ? undefined : "animate-network-dash"}
-                style={{ opacity: isActive ? 0.85 : 0.5, transition: "stroke 0.3s, opacity 0.3s" }}
+                style={{ opacity: isActive ? 0.85 : 0.55, transition: "stroke 0.3s, opacity 0.3s" }}
               />
             );
           })}
@@ -180,22 +183,22 @@ export function NodeNetwork() {
                 transform={`translate(${node.x} ${node.y})`}
                 onMouseEnter={() => setActiveIndex(order.indexOf(node.id))}
                 onClick={() => setActiveIndex(order.indexOf(node.id))}
-                style={{ cursor: "pointer", opacity: dim ? 0.42 : 1, transition: "opacity 0.3s" }}
+                style={{ cursor: "pointer", opacity: dim ? 0.38 : 1, transition: "opacity 0.3s" }}
                 aria-hidden="true"
               >
                 {isActive && <circle r={isHub ? 62 : 30} fill="url(#node-glow)" />}
 
                 <circle
                   r={r}
-                  fill={isActive ? "rgba(34,211,238,0.14)" : "rgba(24,24,27,0.9)"}
+                  fill={isActive ? "rgba(29,78,216,0.12)" : "rgba(28,24,19,0.04)"}
                   stroke={
                     isActive
-                      ? "#22d3ee"
+                      ? ACCENT
                       : isSecret
-                        ? "rgba(167,139,250,0.45)"
+                        ? "rgba(109,40,217,0.45)"
                         : isHub
-                          ? "rgba(113,113,122,0.8)"
-                          : "rgba(82,82,91,0.7)"
+                          ? "rgba(28,24,19,0.3)"
+                          : "rgba(28,24,19,0.22)"
                   }
                   strokeWidth={isActive ? 1.8 : 1}
                   style={{ transition: "fill 0.3s, stroke 0.3s" }}
@@ -207,7 +210,7 @@ export function NodeNetwork() {
                     dominantBaseline="middle"
                     fontSize="13"
                     letterSpacing="0.3"
-                    fill={isActive ? "#67e8f9" : "#d4d4d8"}
+                    fill={isActive ? ACCENT : "#57504a"}
                     style={{ fontFamily: "var(--font-geist-mono), monospace" }}
                   >
                     {node.label}
@@ -215,7 +218,7 @@ export function NodeNetwork() {
                 )}
 
                 {!isHub && !isSecret && (
-                  <circle r="3" fill={isActive ? "#22d3ee" : "rgba(148,163,184,0.7)"} className={isActive && !reduceMotion ? "animate-pulse-soft" : undefined} />
+                  <circle r="3" fill={isActive ? ACCENT : "rgba(28,24,19,0.45)"} className={isActive && !reduceMotion ? "animate-pulse-soft" : undefined} />
                 )}
 
                 {isSecret && (
@@ -223,7 +226,7 @@ export function NodeNetwork() {
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="13"
-                    fill="#a78bfa"
+                    fill={VIOLET}
                     style={{ fontFamily: "var(--font-geist-mono), monospace" }}
                   >
                     ?
@@ -234,26 +237,26 @@ export function NodeNetwork() {
           })}
         </svg>
 
-        <div className="pointer-events-none absolute right-4 bottom-3 font-mono text-[10px] tracking-widest text-zinc-400 uppercase">
+        <div className="pointer-events-none absolute right-4 bottom-3 font-mono text-[10px] tracking-widest text-muted uppercase">
           <span className="hidden sm:inline">← → to explore</span>
         </div>
       </div>
 
       <figcaption
         aria-live="polite"
-        className="mt-4 flex min-h-[3.5rem] items-start gap-3 rounded-xl border border-zinc-800/70 bg-zinc-950/50 px-4 py-3"
+        className="mt-4 flex min-h-[3.5rem] items-start gap-3 rounded-xl border border-line bg-canvas-soft/70 px-4 py-3"
       >
         <span
           className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${
-            activeNode.kind === "secret" ? "bg-violet-400" : "bg-cyan-400"
+            activeNode.kind === "secret" ? "bg-violet" : "bg-accent"
           }`}
           aria-hidden="true"
         />
         <span>
-          <span className="block font-mono text-[11px] tracking-widest text-zinc-400 uppercase">
+          <span className="block font-mono text-[11px] tracking-widest text-muted uppercase">
             {activeNode.label}
           </span>
-          <span className="mt-0.5 block text-sm leading-snug text-zinc-400">
+          <span className="mt-0.5 block text-sm leading-snug text-body">
             {activeNode.description}
           </span>
         </span>

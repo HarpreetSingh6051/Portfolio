@@ -1,6 +1,6 @@
 /**
  * Fixed, decorative atmosphere rendered behind all content.
- * Layered near-black surfaces, a fine grid, and two restrained glows.
+ * A warm paper canvas with a faint grid and two very restrained tints.
  */
 export function SiteBackground() {
   return (
@@ -8,18 +8,15 @@ export function SiteBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Base */}
-      <div className="absolute inset-0 bg-[#08080a]" />
+      {/* Base — warm paper */}
+      <div className="absolute inset-0 bg-gradient-to-b from-canvas via-canvas to-canvas-soft" />
 
       {/* Fine grid, faded toward the edges */}
       <div className="bg-grid-fine mask-fade-edges absolute inset-0" />
 
-      {/* Atmospheric glows */}
-      <div className="absolute -top-[25%] left-1/2 h-[70vh] w-[90vw] -translate-x-1/2 rounded-full bg-cyan-500/[0.07] blur-[130px]" />
-      <div className="absolute right-[-15%] bottom-[-15%] h-[55vh] w-[55vw] rounded-full bg-violet-600/[0.06] blur-[130px]" />
-
-      {/* Top sheen */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
+      {/* Restrained atmospheric tints */}
+      <div className="absolute -top-[22%] left-[12%] h-[62vh] w-[72vw] rounded-full bg-accent/[0.045] blur-[130px]" />
+      <div className="absolute right-[-12%] bottom-[-18%] h-[52vh] w-[52vw] rounded-full bg-violet/[0.04] blur-[130px]" />
     </div>
   );
 }

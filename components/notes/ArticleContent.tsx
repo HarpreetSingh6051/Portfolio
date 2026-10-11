@@ -9,7 +9,7 @@ interface ArticleContentProps {
 
 export function ArticleContent({ content, excerpt }: ArticleContentProps) {
   if (!content) {
-    return <p className="text-zinc-400">{excerpt}</p>;
+    return <p className="text-body">{excerpt}</p>;
   }
 
   return (
@@ -22,21 +22,21 @@ export function ArticleContent({ content, excerpt }: ArticleContentProps) {
       {content.split("\n\n").map((paragraph, i) => {
         if (paragraph.startsWith("## ")) {
           return (
-            <h2 key={i} className="mt-8 mb-4 text-xl font-bold text-zinc-50">
+            <h2 key={i} className="mt-8 mb-4 font-display text-2xl text-ink">
               {paragraph.replace("## ", "")}
             </h2>
           );
         }
         if (paragraph.startsWith("### ")) {
           return (
-            <h3 key={i} className="mt-6 mb-3 text-lg font-semibold text-zinc-100">
+            <h3 key={i} className="mt-6 mb-3 text-lg font-semibold text-ink">
               {paragraph.replace("### ", "")}
             </h3>
           );
         }
         if (paragraph.startsWith("- ")) {
           return (
-            <ul key={i} className="list-inside list-disc space-y-1 text-zinc-400">
+            <ul key={i} className="list-inside list-disc space-y-1 text-body">
               {paragraph.split("\n").map((item, j) => (
                 <li key={j}>{item.replace("- ", "")}</li>
               ))}
@@ -46,13 +46,13 @@ export function ArticleContent({ content, excerpt }: ArticleContentProps) {
         if (paragraph.startsWith("```")) {
           const code = paragraph.replace(/```\w*\n?/g, "").replace(/```$/g, "");
           return (
-            <pre key={i} className="overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-              <code className="text-sm text-zinc-300">{code}</code>
+            <pre key={i} className="overflow-x-auto rounded-lg border border-line bg-canvas-soft p-4">
+              <code className="text-sm text-ink">{code}</code>
             </pre>
           );
         }
         return (
-          <p key={i} className="leading-relaxed text-zinc-400">
+          <p key={i} className="leading-relaxed text-body">
             {paragraph}
           </p>
         );

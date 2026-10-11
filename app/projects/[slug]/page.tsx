@@ -39,24 +39,24 @@ export default async function ProjectCaseStudy({ params }: Props) {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="border-b border-zinc-800 bg-gradient-to-b from-zinc-900/50 to-zinc-950 py-16 sm:py-20">
+      <section className="border-b border-line bg-gradient-to-b from-canvas-soft/70 to-canvas py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/#projects"
-            className="mb-6 inline-flex items-center gap-1 text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+            className="mb-6 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Projects
           </Link>
 
           <div>
-            <Badge variant={project.category === "Professional" ? "cyan" : "outline"}>
+            <Badge variant={project.category === "Professional" ? "accent" : "outline"}>
               {project.category} Project
             </Badge>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl lg:text-5xl">
+            <h1 className="font-display mt-5 text-4xl leading-[1.05] text-ink sm:text-5xl">
               {project.name}
             </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-400">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-body">
               {project.summary}
             </p>
 
@@ -64,7 +64,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
               {project.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-400"
+                  className="rounded-md border border-line bg-paper px-2.5 py-1 text-xs font-medium text-muted"
                 >
                   {tech}
                 </span>
@@ -82,10 +82,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
             <div>
               <Card>
                 <div className="mb-3 flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-amber-500" />
-                  <h2 className="text-lg font-semibold text-zinc-50">Problem</h2>
+                  <AlertCircle className="h-5 w-5 text-amber-600" />
+                  <h2 className="text-lg font-semibold text-ink">Problem</h2>
                 </div>
-                <p className="text-sm leading-relaxed text-zinc-400">{project.problem}</p>
+                <p className="text-sm leading-relaxed text-body">{project.problem}</p>
               </Card>
             </div>
 
@@ -93,10 +93,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
             <div>
               <Card>
                 <div className="mb-3 flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-green-500" />
-                  <h2 className="text-lg font-semibold text-zinc-50">My Role & Contributions</h2>
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                  <h2 className="text-lg font-semibold text-ink">My Role & Contributions</h2>
                 </div>
-                <p className="text-sm leading-relaxed text-zinc-400">{project.role}</p>
+                <p className="text-sm leading-relaxed text-body">{project.role}</p>
               </Card>
             </div>
 
@@ -105,10 +105,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
               <div>
                 <Card>
                   <div className="mb-4 flex items-center gap-2">
-                    <Wrench className="h-5 w-5 text-cyan-400" />
-                    <h2 className="text-lg font-semibold text-zinc-50">Architecture & Pipeline</h2>
+                    <Wrench className="h-5 w-5 text-accent" />
+                    <h2 className="text-lg font-semibold text-ink">Architecture & Pipeline</h2>
                   </div>
-                  <p className="mb-4 text-sm text-zinc-500">
+                  <p className="mb-4 text-sm text-muted">
                     Click each stage to learn more about its role in the pipeline.
                   </p>
                   <PipelineDetail stages={project.pipelineStages} />
@@ -120,13 +120,13 @@ export default async function ProjectCaseStudy({ params }: Props) {
             <div>
               <Card>
                 <div className="mb-3 flex items-center gap-2">
-                  <Lightbulb className="h-5 w-5 text-violet-400" />
-                  <h2 className="text-lg font-semibold text-zinc-50">Key Engineering Decisions</h2>
+                  <Lightbulb className="h-5 w-5 text-violet" />
+                  <h2 className="text-lg font-semibold text-ink">Key Engineering Decisions</h2>
                 </div>
                 <ul className="space-y-3">
                   {project.decisions.map((decision, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-zinc-400">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-500" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-body">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       {decision}
                     </li>
                   ))}
@@ -138,13 +138,13 @@ export default async function ProjectCaseStudy({ params }: Props) {
             <div>
               <Card>
                 <div className="mb-3 flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-orange-400" />
-                  <h2 className="text-lg font-semibold text-zinc-50">Challenges & Trade-offs</h2>
+                  <AlertCircle className="h-5 w-5 text-orange-600" />
+                  <h2 className="text-lg font-semibold text-ink">Challenges & Trade-offs</h2>
                 </div>
                 <ul className="space-y-3">
                   {project.challenges.map((challenge, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-zinc-400">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-body">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" />
                       {challenge}
                     </li>
                   ))}
@@ -157,10 +157,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
               <div>
                 <Card>
                   <div className="mb-3 flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-green-500" />
-                    <h2 className="text-lg font-semibold text-zinc-50">Results</h2>
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                    <h2 className="text-lg font-semibold text-ink">Results</h2>
                   </div>
-                  <p className="text-sm leading-relaxed text-zinc-400">{project.results}</p>
+                  <p className="text-sm leading-relaxed text-body">{project.results}</p>
                 </Card>
               </div>
             )}

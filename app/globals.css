@@ -1,8 +1,26 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #08080a;
-  --color-foreground: #f4f4f5;
+  --color-canvas: #faf8f4;
+  --color-canvas-soft: #f3f0e9;
+  --color-paper: #ffffff;
+  --color-ink: #1c1813;
+  --color-ink-strong: #2c271f;
+  --color-body: #565046;
+  --color-muted: #706a5c;
+  --color-line: #e8e2d8;
+  --color-line-strong: #d6cec1;
+  --color-accent: #1d4ed8;
+  --color-accent-strong: #163a9e;
+  --color-accent-soft: #eaf0ff;
+  --color-violet: #6d28d9;
+  --color-violet-soft: #f1eaff;
+  --color-dark: #14120f;
+  --color-dark-raise: #1d1a16;
+  --color-dark-line: #2e2a24;
+  --color-cream: #efeae1;
+  --color-cream-muted: #a69e90;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
@@ -16,8 +34,8 @@ html {
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--color-canvas);
+  color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
@@ -28,35 +46,45 @@ body {
 .font-display {
   font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 .font-display-italic {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 /* ------------------------------------------------------------------ */
-/* Atmospheric helpers                                                 */
+/* Surfaces & helpers                                                  */
 /* ------------------------------------------------------------------ */
 
+/* Fine grid, faded toward the edges (light theme) */
 .bg-grid-fine {
   background-image:
-    linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to right, rgba(28, 24, 19, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 24, 19, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 .mask-fade-edges {
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 45%, transparent 100%);
 }
 
+/* Light raised panel (cards, inner frames) */
 .panel {
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 1px 2px rgba(28, 24, 19, 0.04);
+}
+
+/* Dark showcase surface — used only for project previews */
+.panel-dark {
   background:
-    linear-gradient(180deg, rgba(24, 24, 27, 0.7) 0%, rgba(9, 9, 11, 0.7) 100%);
-  border: 1px solid rgba(63, 63, 70, 0.55);
+    linear-gradient(180deg, var(--color-dark-raise) 0%, var(--color-dark) 100%);
+  border: 1px solid var(--color-dark-line);
 }
 
 /* ------------------------------------------------------------------ */
@@ -130,34 +158,35 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #101012;
+  background: var(--color-canvas);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
+  background: var(--color-line-strong);
+  border-radius: 6px;
+  border: 2px solid var(--color-canvas);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: var(--color-muted);
 }
 
 /* Focus visible styles */
 *:focus-visible {
-  outline: 2px solid #22d3ee;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
 /* Selection color */
 ::selection {
-  background: rgba(34, 211, 238, 0.28);
-  color: #fafafa;
+  background: rgba(29, 78, 216, 0.18);
+  color: var(--color-ink);
 }
 
 /* Respect reduced-motion preferences */

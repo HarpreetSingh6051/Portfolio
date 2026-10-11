@@ -32,7 +32,7 @@ const cameras = ["CAM 01", "CAM 02", "CAM 03"];
 
 export function VisionExperience() {
   return (
-    <div className="panel rounded-2xl p-5 sm:p-6">
+    <div className="rounded-2xl p-5 sm:p-6">
       {/* Abstract camera streams */}
       <div className="mb-5 grid grid-cols-3 gap-2">
         {cameras.map((camera) => (

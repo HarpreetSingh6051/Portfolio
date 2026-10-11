@@ -120,24 +120,21 @@ export function Contact() {
         <Reveal>
           <div className="space-y-6">
             <Card>
-              <h3 className="mb-4 text-lg font-semibold text-zinc-50">
-                Get in Touch
-              </h3>
-              <p className="mb-6 text-sm leading-relaxed text-zinc-400">
-                Whether you have a role that matches my skills, want to discuss
-                applied AI, or just want to connect — I would be happy to hear
-                from you.
+              <h3 className="mb-4 text-lg font-semibold text-ink">Get in Touch</h3>
+              <p className="mb-6 text-sm leading-relaxed text-body">
+                Whether you have a role that matches my skills, want to discuss applied
+                AI, or just want to connect — I would be happy to hear from you.
               </p>
 
               <div className="space-y-4">
                 <a
                   href={socialLinks.email}
-                  className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition-colors hover:border-zinc-600"
+                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas/50 px-4 py-3 transition-colors hover:border-line-strong hover:bg-paper"
                 >
-                  <Mail className="h-5 w-5 text-cyan-400" />
+                  <Mail className="h-5 w-5 text-accent" />
                   <div>
-                    <p className="text-xs text-zinc-400">Email</p>
-                    <p className="text-sm text-zinc-200">{profile.email}</p>
+                    <p className="text-xs text-muted">Email</p>
+                    <p className="text-sm text-ink">{profile.email}</p>
                   </div>
                 </a>
 
@@ -145,12 +142,12 @@ export function Contact() {
                   href={socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition-colors hover:border-zinc-600"
+                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas/50 px-4 py-3 transition-colors hover:border-line-strong hover:bg-paper"
                 >
-                  <Globe className="h-5 w-5 text-cyan-400" />
+                  <Globe className="h-5 w-5 text-accent" />
                   <div>
-                    <p className="text-xs text-zinc-400">LinkedIn</p>
-                    <p className="text-sm text-zinc-200">Connect with me</p>
+                    <p className="text-xs text-muted">LinkedIn</p>
+                    <p className="text-sm text-ink">Connect with me</p>
                   </div>
                 </a>
 
@@ -158,23 +155,23 @@ export function Contact() {
                   href={socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition-colors hover:border-zinc-600"
+                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas/50 px-4 py-3 transition-colors hover:border-line-strong hover:bg-paper"
                 >
-                  <Code2 className="h-5 w-5 text-cyan-400" />
+                  <Code2 className="h-5 w-5 text-accent" />
                   <div>
-                    <p className="text-xs text-zinc-400">GitHub</p>
-                    <p className="text-sm text-zinc-200">View my projects</p>
+                    <p className="text-xs text-muted">GitHub</p>
+                    <p className="text-sm text-ink">View my projects</p>
                   </div>
                 </a>
 
                 <a
                   href={profile.resumePath}
-                  className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition-colors hover:border-zinc-600"
+                  className="flex items-center gap-3 rounded-lg border border-line bg-canvas/50 px-4 py-3 transition-colors hover:border-line-strong hover:bg-paper"
                 >
-                  <FileText className="h-5 w-5 text-cyan-400" />
+                  <FileText className="h-5 w-5 text-accent" />
                   <div>
-                    <p className="text-xs text-zinc-400">Resume</p>
-                    <p className="text-sm text-zinc-200">Download PDF</p>
+                    <p className="text-xs text-muted">Resume</p>
+                    <p className="text-sm text-ink">Download PDF</p>
                   </div>
                 </a>
               </div>
@@ -185,12 +182,10 @@ export function Contact() {
         {/* Right: Quick message form */}
         <Reveal delay={0.1}>
           <Card>
-            <h3 className="mb-4 text-lg font-semibold text-zinc-50">
-              Send a Message
-            </h3>
+            <h3 className="mb-4 text-lg font-semibold text-ink">Send a Message</h3>
             <form className="space-y-4" onSubmit={handleSubmit} noValidate>
               <div>
-                <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-zinc-300">
+                <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-body">
                   Name
                 </label>
                 <input
@@ -200,12 +195,12 @@ export function Contact() {
                   required
                   autoComplete="name"
                   disabled={isSubmitting}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
+                  className="w-full rounded-lg border border-line bg-canvas/50 px-4 py-2.5 text-sm text-ink placeholder-muted transition-colors focus:border-accent/60 focus:outline-none disabled:opacity-60"
                   placeholder="Your name"
                 />
               </div>
               <div>
-                <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-zinc-300">
+                <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-body">
                   Email
                 </label>
                 <input
@@ -215,12 +210,12 @@ export function Contact() {
                   required
                   autoComplete="email"
                   disabled={isSubmitting}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
+                  className="w-full rounded-lg border border-line bg-canvas/50 px-4 py-2.5 text-sm text-ink placeholder-muted transition-colors focus:border-accent/60 focus:outline-none disabled:opacity-60"
                   placeholder="your@email.com"
                 />
               </div>
               <div>
-                <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-zinc-300">
+                <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-body">
                   Message
                 </label>
                 <textarea
@@ -229,7 +224,7 @@ export function Contact() {
                   required
                   rows={4}
                   disabled={isSubmitting}
-                  className="w-full resize-none rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 transition-colors focus:border-cyan-500/50 focus:outline-none disabled:opacity-60"
+                  className="w-full resize-none rounded-lg border border-line bg-canvas/50 px-4 py-2.5 text-sm text-ink placeholder-muted transition-colors focus:border-accent/60 focus:outline-none disabled:opacity-60"
                   placeholder="Tell me about the opportunity or just say hello..."
                 />
               </div>
@@ -266,7 +261,7 @@ export function Contact() {
               {status === "success" && (
                 <p
                   role="status"
-                  className="flex items-start gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-200"
+                  className="flex items-start gap-2 rounded-lg border border-emerald-600/25 bg-emerald-600/10 px-3 py-2 text-sm text-emerald-800"
                 >
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>{feedback}</span>
@@ -275,7 +270,7 @@ export function Contact() {
               {status === "error" && (
                 <p
                   role="alert"
-                  className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200"
+                  className="flex items-start gap-2 rounded-lg border border-red-600/25 bg-red-600/10 px-3 py-2 text-sm text-red-800"
                 >
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>{feedback}</span>

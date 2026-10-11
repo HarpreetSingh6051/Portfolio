@@ -160,7 +160,7 @@ export function CommandPalette() {
           className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[12vh] sm:pt-[16vh]"
           onMouseDown={close}
         >
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
+          <div className="absolute inset-0 bg-ink/35 backdrop-blur-sm" aria-hidden="true" />
 
           <motion.div
             role="dialog"
@@ -170,11 +170,11 @@ export function CommandPalette() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-zinc-700/70 bg-zinc-950/95 shadow-2xl shadow-black/60"
+            className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-paper shadow-2xl shadow-ink/15"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <div className="flex items-center gap-3 border-b border-zinc-800/80 px-4">
-              <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+            <div className="flex items-center gap-3 border-b border-line px-4">
+              <Search className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
               <input
                 ref={inputRef}
                 value={query}
@@ -187,16 +187,16 @@ export function CommandPalette() {
                 aria-label="Search commands"
                 autoComplete="off"
                 spellCheck={false}
-                className="h-14 flex-1 bg-transparent text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none"
+                className="h-14 flex-1 bg-transparent text-sm text-ink placeholder-muted focus:outline-none"
               />
-              <kbd className="hidden shrink-0 rounded border border-zinc-700 bg-zinc-900 px-1.5 py-0.5 font-mono text-[10px] text-zinc-400 sm:block">
+              <kbd className="hidden shrink-0 rounded border border-line bg-canvas-soft px-1.5 py-0.5 font-mono text-[10px] text-muted sm:block">
                 Esc
               </kbd>
             </div>
 
             <div className="max-h-[52vh] overflow-y-auto p-2" role="listbox" aria-label="Commands">
               {filtered.length === 0 ? (
-                <p className="px-3 py-8 text-center text-sm text-zinc-400">
+                <p className="px-3 py-8 text-center text-sm text-muted">
                   No matches. Try “projects”, “resume”, or “contact”.
                 </p>
               ) : (
@@ -205,7 +205,7 @@ export function CommandPalette() {
                   if (groupCommands.length === 0) return null;
                   return (
                     <div key={group} className="mb-1">
-                      <p className="px-3 py-1.5 font-mono text-[10px] tracking-widest text-zinc-400 uppercase">
+                      <p className="px-3 py-1.5 font-mono text-[10px] tracking-widest text-muted uppercase">
                         {group}
                       </p>
                       {groupCommands.map((command) => {
@@ -222,21 +222,21 @@ export function CommandPalette() {
                             onClick={() => runCommand(command)}
                             className={cn(
                               "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
-                              isActive ? "bg-cyan-500/10 text-zinc-50" : "text-zinc-300 hover:bg-zinc-900"
+                              isActive ? "bg-accent-soft text-ink" : "text-body hover:bg-canvas-soft"
                             )}
                           >
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0",
-                                isActive ? "text-cyan-400" : "text-zinc-500"
+                                isActive ? "text-accent" : "text-muted"
                               )}
                               aria-hidden="true"
                             />
                             <span className="flex-1">{command.label}</span>
                             {isActive ? (
-                              <CornerDownLeft className="h-3.5 w-3.5 text-zinc-500" aria-hidden="true" />
+                              <CornerDownLeft className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
                             ) : (
-                              <ArrowRight className="h-3.5 w-3.5 text-zinc-700" aria-hidden="true" />
+                              <ArrowRight className="h-3.5 w-3.5 text-line-strong" aria-hidden="true" />
                             )}
                           </button>
                         );
@@ -247,10 +247,10 @@ export function CommandPalette() {
               )}
             </div>
 
-            <div className="flex items-center justify-between border-t border-zinc-800/80 px-4 py-2.5 text-[11px] text-zinc-400">
+            <div className="flex items-center justify-between border-t border-line px-4 py-2.5 text-[11px] text-muted">
               <span>Tip: there is a spare node hiding in the hero network.</span>
               <span className="hidden items-center gap-1 sm:flex">
-                <kbd className="rounded border border-zinc-700 bg-zinc-900 px-1.5 py-0.5 font-mono text-[10px]">
+                <kbd className="rounded border border-line bg-canvas-soft px-1.5 py-0.5 font-mono text-[10px]">
                   ↑↓
                 </kbd>
                 navigate

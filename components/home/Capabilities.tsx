@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { Section, SectionHeader } from "@/components/ui/Section";
-import { cn } from "@/lib/utils/cn";
+import { Section, SectionHeader, Reveal } from "@/components/ui/Section";
 
 interface Capability {
   id: string;
@@ -50,100 +47,52 @@ const capabilities: Capability[] = [
 ];
 
 export function Capabilities() {
-  const [activeId, setActiveId] = useState(capabilities[0].id);
-  const active = capabilities.find((capability) => capability.id === activeId)!;
-
   return (
-    <Section id="skills" background="muted">
+    <Section id="skills">
       <SectionHeader
         label="Capabilities"
         title="A toolkit, not a logo wall"
-        description="Four disciplines I work across. Select one to see where it shows up in the work."
+        description="Four disciplines I work across — each one grounded in delivery, not decoration."
       />
 
-      <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr] lg:gap-6">
-        <ul className="flex flex-col gap-2">
-          {capabilities.map((capability, index) => {
-            const isActive = capability.id === activeId;
-            return (
-              <li key={capability.id}>
-                <button
-                  type="button"
-                  onClick={() => setActiveId(capability.id)}
-                  onMouseEnter={() => setActiveId(capability.id)}
-                  aria-pressed={isActive}
-                  className={cn(
-                    "group flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left transition-colors",
-                    isActive
-                      ? "border-cyan-500/50 bg-cyan-500/[0.07]"
-                      : "border-zinc-800 bg-zinc-950/40 hover:border-zinc-700"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "font-mono text-xs",
-                      isActive ? "text-cyan-400" : "text-zinc-400"
-                    )}
+      <div className="grid gap-5 sm:grid-cols-2">
+        {capabilities.map((capability, index) => (
+          <Reveal key={capability.id} delay={index * 0.05}>
+            <article className="group h-full rounded-2xl border border-line bg-paper p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_14px_34px_-18px_rgba(28,24,19,0.25)]">
+              <div className="flex items-center justify-between gap-4">
+                <span className="font-mono text-xs font-semibold text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="h-px flex-1 bg-line" aria-hidden="true" />
+                {capability.related ? (
+                  <Link
+                    href={capability.related.href}
+                    className="text-line-strong transition-colors group-hover:text-accent"
+                    aria-label={`${capability.title} — see related work`}
                   >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={cn(
-                      "font-display text-xl transition-colors",
-                      isActive ? "text-zinc-50" : "text-zinc-300"
-                    )}
-                  >
-                    {capability.title}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                ) : (
+                  <span className="h-4 w-4" aria-hidden="true" />
+                )}
+              </div>
 
-        <div className="relative min-h-[15rem] rounded-2xl border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              <p className="font-mono text-[11px] tracking-[0.2em] text-cyan-400 uppercase">
-                {active.title}
-              </p>
-              <p className="mt-4 max-w-lg text-lg leading-relaxed text-zinc-300">
-                {active.blurb}
-              </p>
+              <h3 className="font-display mt-5 text-2xl text-ink transition-colors group-hover:text-accent">
+                {capability.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-body">{capability.blurb}</p>
 
-              <ul className="mt-6 flex flex-wrap gap-2">
-                {active.items.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-full border border-zinc-700/80 bg-zinc-900/60 px-3 py-1 text-xs text-zinc-300"
-                  >
+              <ul className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-xs text-muted">
+                {capability.items.map((item, i) => (
+                  <li key={item} className="flex items-center gap-2">
+                    {i > 0 && <span className="text-line-strong">/</span>}
                     {item}
                   </li>
                 ))}
               </ul>
-
-              {active.related ? (
-                <Link
-                  href={active.related.href}
-                  className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
-                >
-                  {active.related.label}
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
-              ) : (
-                <p className="mt-8 text-sm text-zinc-400">
-                  Shown across the delivery milestones in the journey above.
-                </p>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </article>
+          </Reveal>
+        ))}
       </div>
     </Section>
   );

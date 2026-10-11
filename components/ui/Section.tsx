@@ -16,8 +16,8 @@ export function Section({ id, children, className, background = "default" }: Sec
     <section
       id={id}
       className={cn(
-        "py-20 sm:py-24 lg:py-32",
-        background === "muted" && "bg-zinc-900/50",
+        "py-20 sm:py-24 lg:py-28",
+        background === "muted" && "border-y border-line bg-canvas-soft",
         className
       )}
     >
@@ -42,18 +42,16 @@ export function SectionHeader({ label, title, description }: SectionHeaderProps)
       className="mb-12 sm:mb-16"
     >
       <div className="flex items-center gap-3">
-        <span className="h-px w-8 bg-cyan-400/70" aria-hidden="true" />
-        <span className="font-mono text-xs tracking-[0.25em] text-cyan-400 uppercase">
+        <span className="h-px w-10 bg-accent" aria-hidden="true" />
+        <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase">
           {label}
         </span>
       </div>
-      <h2 className="font-display mt-5 max-w-3xl text-4xl leading-[1.1] text-zinc-50 sm:text-5xl">
+      <h2 className="font-display mt-5 max-w-3xl text-4xl leading-[1.05] text-ink sm:text-5xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-400">
-          {description}
-        </p>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-body">{description}</p>
       )}
     </motion.div>
   );

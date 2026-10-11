@@ -66,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
     >
-      <body className="text-zinc-100">
+      <body className="bg-canvas text-ink">
         <SiteBackground />
         <MotionProvider>
           <div className="relative z-10 flex min-h-screen flex-col">
